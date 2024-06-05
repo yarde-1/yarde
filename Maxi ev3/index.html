@@ -92,20 +92,42 @@
                     <button type="button" class="btn btn-primary" onclick="addCarrera()">Agregar Carrera</button>
 
                     <div id="participantes-container">
-                        <h4<>Añadir participante a la carrera</h4>
+                        <h4>Añadir participante a la carrera</h4>
+
                         <div class="form-group participante">
                             <label for="c-rutCon">Numero de carrera a participar:</label>
-                            <input type="text" class="form-control" name="c-numC" placeholder="Numero carrera:">
+                            <input type="text" class="form-control" name="c-numC" placeholder="A12">
                             <label for="c-rutCon">RUT del Conductor:</label>
-                            <input type="text" class="form-control" name="c-rutCon" placeholder="Conductor:">
+                            <input type="text" class="form-control" name="c-rutCon"  placeholder="Ej: xxxxxxxx-x">
                             <label for="c-auto">Patente del Auto:</label>
-                            <input type="text" class="form-control" name="c-auto" placeholder="Auto:">
+                            <input type="text" class="form-control" name="c-auto"  placeholder="Ej: BBCL34">
                         </div>
                     </div>
                     <button type="button" class="btn btn-secondary" onclick="addParticipante()">Agregar Participante</button>
                 </form>
             </div>
         </div>
+        <!--busqueda-->
+<div class="card my-3">
+    <div class="card-header">
+        <h2>Buscar Carrera por Número</h2>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <label for="b-numCarrera">Número de Carrera:</label>
+                <input type="text" class="form-control" id="b-numCarrera" name="b-numCarrera" placeholder="Ej: A12">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="findCarrera()">Buscar</button>
+        </form>
+        <div class="mt-3">
+            <p id="rC-numCarrera"></p>
+            <p id="rC-fecha"></p>
+            <p id="rC-direccion"></p>
+            <ul id="rC-participantes"></ul>
+        </div>
+    </div>
+</div>
 
         <div class="card my-3">
             <div class="card-header">
@@ -149,6 +171,25 @@
             </div>
         </div>
     </div>
+            <!--eliminar-->
+            <div class="card my-3">
+                <div class="card-header">
+                    <h2>Eliminar Participante por RUT</h2>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="e-rut">RUT:</label>
+                            <input type="text" class="form-control" id="e-rut" name="e-rut" placeholder="Ej: xxxxxxxx-x">
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="deleteParticipante()">Eliminar</button>
+                    </form>
+                    <div class="mt-3">
+                        <p id="rE-result"></p>
+                    </div>
+                </div>
+            </div>
+            
 </body>
 
 </html>
