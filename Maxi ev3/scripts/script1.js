@@ -224,41 +224,51 @@ function addCarrera() {
 
     let isValid = true;
 
+    // Expresión regular para validar el formato del número de carrera (una letra seguida de hasta tres dígitos)
     let numRegex = /^[A-Za-z]\d{0,3}$/;
 
+    // Expresión regular para validar si la fecha es un valor numérico
     let fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
 
+    // Expresión regular para validar el formato de la dirección (texto seguido de números, coma y texto)
     let direccionRegex = /^[A-Za-z\s]+\s\d+,\s[A-Za-z\s]+$/;
 
+    // Validar el formato de entrada del número de carrera
     if (!numRegex.test(numC)) {
         isValid = false;
-        document.getElementById("c-numC").classList.add("is-invalid"); 
-        document.getElementById("c-numC").classList.remove("is-invalid");
+        document.getElementById("c-numC").classList.add("is-invalid"); // Agrega la clase "is-invalid" para resaltar en rojo
+    } else {
+        document.getElementById("c-numC").classList.remove("is-invalid"); // Elimina la clase "is-invalid" si la entrada es válida
     }
 
     // Validar el formato de entrada de la fecha
     if (!fechaRegex.test(fechaValue)) {
         isValid = false;
-        fechaInput.classList.add("is-invalid"); 
+        fechaInput.classList.add("is-invalid"); // Agrega la clase "is-invalid" para resaltar en rojo
     } else {
-        fechaInput.classList.remove("is-invalid"); 
+        fechaInput.classList.remove("is-invalid"); // Elimina la clase "is-invalid" si la entrada es válida
     }
 
     // Validar el formato de entrada de la dirección
     if (!direccionRegex.test(direccionValue)) {
         isValid = false;
-        direccionInput.classList.add("is-invalid"); 
+        direccionInput.classList.add("is-invalid"); // Agrega la clase "is-invalid" para resaltar en rojo
     } else {
-        direccionInput.classList.remove("is-invalid");
+        direccionInput.classList.remove("is-invalid"); // Elimina la clase "is-invalid" si la entrada es válida
     }
 
+    // Si todos los campos son válidos, procede con el resto del código para agregar la carrera
     if (isValid) {
+        // Crear un nuevo objeto de carrera con los datos ingresados
         let nuevaCarrera = new Carrera(numC, fechaValue, direccionValue);
 
+        // Agregar la nueva carrera al arreglo de carreras
         carreras.push(nuevaCarrera);
 
+        // Muestra un mensaje de confirmación
         alert("Carrera añadida");
 
+        // Limpiar los campos del formulario después de agregar la carrera
         document.getElementById("c-numC").value = "";
         fechaInput.value = "";
         direccionInput.value = "";
@@ -266,6 +276,7 @@ function addCarrera() {
         alert('Por favor, completa todos los campos correctamente.');
     }
 }
+
 
 
 let addParticipante = function(){
