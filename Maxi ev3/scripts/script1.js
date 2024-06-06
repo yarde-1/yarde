@@ -365,3 +365,28 @@ function findCarrera() {
 }
 
 //validacion
+//eliminar por rut 
+let deleteCarreraByRut = function() {
+    let rut = document.getElementById("d-rut").value;
+
+    if (rut.trim() === '') {
+        alert("Por favor, ingrese el Rut.");
+        document.getElementById("d-rut").classList.add("is-invalid");
+        return;
+    } else {
+        document.getElementById("d-rut").classList.remove("is-invalid");
+    }
+    
+    let index = carreras.findIndex(carrera => carrera.getRut() === rut);
+    if (index !== -1) {
+        carreras.splice(index, 1);
+        alert("Carrera eliminada correctamente.");
+        console.log("Carrera eliminada:", rut);
+        console.log("Lista de carreras actualizada:", carreras);
+        document.getElementById('delete-form').reset();
+    } else {
+        alert("No se encontró ninguna carrera con ese Rut.");
+    }
+}
+
+///
