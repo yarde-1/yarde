@@ -83,16 +83,17 @@ let autos = [];
 let carreras = [];
 let participantes = {};
 
-conductores.push(new Conductor(1-1, "Fanshesco", "Virgorini", 45));
-conductores.push(new Conductor(1-2, "Carla", "Cristi", 23));
-conductores.push(new Conductor(1-3, "Luis", "Martinez", 30));
-conductores.push(new Conductor(1-4, "Ana", "Gonzalez", 34));
-conductores.push(new Conductor(1-5, "Pedro", "Ramirez", 29));
-conductores.push(new Conductor(1-6, "Maria", "Fernandez", 40));
-conductores.push(new Conductor(1-7, "Jose", "Lopez", 31));
-conductores.push(new Conductor(1-8, "Lucia", "Sanchez", 27));
-conductores.push(new Conductor(1-9, "Miguel", "Diaz", 33));
-conductores.push(new Conductor(1-10, "Elena", "Perez", 36));
+conductores.push(new Conductor("11.111.111-1", "Fanshesco", "Virgorini", 45));
+conductores.push(new Conductor("22.222.222-2", "Carla", "Cristi", 23));
+conductores.push(new Conductor("33.333.333-3", "Luis", "Martinez", 30));
+conductores.push(new Conductor("44.444.444-4", "Ana", "Gonzalez", 34));
+conductores.push(new Conductor("55.555.555-5", "Pedro", "Ramirez", 29));
+
+autos.push(new Auto("aaaa11", "alo", "sipo", "Naranjo", 1800));
+autos.push(new Auto("bbbb22", "nopo", "sipo", "Rojo", 1900));
+autos.push(new Auto("cccc33", "pepe", "pepote", "Cafe", 2000));
+autos.push(new Auto("dddd44", "Cyber", "Punk", "Amarillo", 2079));
+autos.push(new Auto("eeee55", "shaaa", "meavola", "Verde", 2024));
 
 console.log(conductores);
 
@@ -149,6 +150,8 @@ let addConductor = function() {
         document.getElementById("con-nom").classList.remove("is-invalid");
         document.getElementById("con-ape").classList.remove("is-invalid");
         document.getElementById("con-edad").classList.remove("is-invalid");
+    }  else {
+        alert('Por favor, completa todos los campos.');
     }
 }
 
@@ -157,54 +160,142 @@ let addConductor = function() {
 
 
 //////////////////////////
-let addAuto = function(){
-    let pt = document.getElementById("a-pt").value;
-    let mar = document.getElementById("a-mar").value;
-    let mod = document.getElementById("a-mod").value;
-    let color = document.getElementById("a-color").value;
-    let año = parseInt(document.getElementById("a-año").value);
+//validacion auto
+let addAuto = function() {
+    let pt = document.getElementById("a-pt");
+    let mar = document.getElementById("a-mar");
+    let mod = document.getElementById("a-mod");
+    let color = document.getElementById("a-color");
+    let año = document.getElementById("a-año");
 
+    let valid = true;
 
-    let a = new Auto(pt, mar, mod, color, año);
+    if (!pt.value || !/^[A-Za-z]{4}\d{2}$/.test(pt.value) || pt.value.length !== 6) {
+        pt.classList.add('is-invalid');
+        valid = false;
+    } else {
+        pt.classList.remove('is-invalid');
+    }
 
-    autos.push(a);
-    alert("Auto añadido");
-    console.log(autos);
-}
+    if (!mar.value) {
+        mar.classList.add('is-invalid');
+        valid = false;
+    } else {
+        mar.classList.remove('is-invalid');
+    }
 
-let addCarrera = function(){
+    if (!mod.value) {
+        mod.classList.add('is-invalid');
+        valid = false;
+    } else {
+        mod.classList.remove('is-invalid');
+    }
+
+    if (!color.value) {
+        color.classList.add('is-invalid');
+        valid = false;
+    } else {
+        color.classList.remove('is-invalid');
+    }
+
+    if (!año.value) {
+        año.classList.add('is-invalid');
+        valid = false;
+    } else {
+        año.classList.remove('is-invalid');
+    }
+
+    if (valid) {
+        let a = new Auto(pt.value, mar.value, mod.value, color.value, parseInt(año.value));
+        autos.push(a);
+        alert("Auto añadido");
+        console.log(autos);
+    } else {
+        alert('Por favor, completa todos los campos.');
+    }
+};
+
+function addCarrera() {
     let numC = document.getElementById("c-numC").value;
-    let fecha = document.getElementById("c-fecha").value;
-    let dirc = document.getElementById("c-dirc").value;
+    let fechaInput = document.getElementById("c-fecha");
+    let fechaValue = fechaInput.value;
+    let direccionInput = document.getElementById("c-dirc");
+    let direccionValue = direccionInput.value;
 
-    let carrera = new Carrera(numC, fecha, dirc);
+    let isValid = true;
 
-    carreras.push(carrera);
-    alert("Carrera añadida");
-    console.log(carreras);
+    let numRegex = /^[A-Za-z]\d{0,3}$/;
+
+    let fechaRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+    let direccionRegex = /^[A-Za-z\s]+\s\d+,\s[A-Za-z\s]+$/;
+
+    if (!numRegex.test(numC)) {
+        isValid = false;
+        document.getElementById("c-numC").classList.add("is-invalid"); 
+        document.getElementById("c-numC").classList.remove("is-invalid");
+    }
+
+    // Validar el formato de entrada de la fecha
+    if (!fechaRegex.test(fechaValue)) {
+        isValid = false;
+        fechaInput.classList.add("is-invalid"); 
+    } else {
+        fechaInput.classList.remove("is-invalid"); 
+    }
+
+    // Validar el formato de entrada de la dirección
+    if (!direccionRegex.test(direccionValue)) {
+        isValid = false;
+        direccionInput.classList.add("is-invalid"); 
+    } else {
+        direccionInput.classList.remove("is-invalid");
+    }
+
+    if (isValid) {
+        let nuevaCarrera = new Carrera(numC, fechaValue, direccionValue);
+
+        carreras.push(nuevaCarrera);
+
+        alert("Carrera añadida");
+
+        document.getElementById("c-numC").value = "";
+        fechaInput.value = "";
+        direccionInput.value = "";
+    } else {
+        alert('Por favor, completa todos los campos correctamente.');
+    }
 }
+
 
 let addParticipante = function(){
-    let bCar = document.getElementById("c-numC")
-    let car = carreras.find(carre => carre.getNumCarrera === bCar)
-    if(car != undefined){
-        let part = conductores.find(pa => pa.getNumCarrera === rut)
-        p.setParticipante(part)
+    let numC = document.getElementById("p-numC").value;
+    let rut = document.getElementById("p-rutCon").value;
+    let patente = document.getElementById("p-auto").value;
 
-        participantes.push(p)
-        alert("Participante agregado")
-        console.log(participantes)
+    let carrera = carreras.find(carre => carre.numCarrera == numC);
+    if(carrera !== undefined){
+        let conductor = conductores.find(con => con.getRut() == rut);
+        if (conductor !== undefined) {
+            carrera.añadirConductor(conductor);
+        }else{
+            alert("Conductor no encontrado.");
+        }
 
-        let vehi = autos.find(a => a.getNumCarrera === patente)
-        au.setAutos(vehi)
+        let auto = autos.find(a => a.getPatente() == patente);
+        if(auto !== undefined) {
+            carrera.añadirAuto(auto);
+        }else{
+            alert("Auto no encontrado.");
+        }
 
-        autos.push(au)
-        alert("Auto agregado")
-        console.log(autos)
+        alert("Participante y auto añadidos a la carrera.");
+        console.log(carrera.participantes);
+        console.log(carrera.autos);
+        document.getElementById('participante-form').reset();
     }else{
-        alert("no se encontro")
+        alert("Carrera no encontrada.");
     }
-    
 }
 
 //Busqueda de objetos
@@ -230,32 +321,33 @@ let findConductor = function() {
     }
 }
 
-let findAuto = function(){
-
+//buscar por patente
+let findAuto = function() {
     let pA = document.getElementById("b-pat").value;
     let a = autos.find(aut => aut.getPatente === pA);
-    if(a != undefined){
+
+    if (a !== undefined) {
         alert("Auto encontrado.");
-        document.getElementById("rA-patA").innerHTML = "<b>Patente: </b>"+a.getPatente;
-        document.getElementById("rA-marcA").innerHTML = "<b>Marca: </b>"+a.getMarca;
-        document.getElementById("rA-modA").innerHTML = "<b>Modelo: </b>"+a.getModelo;
-        document.getElementById("rA-colorA").innerHTML = "<b>Color: </b>"+a.getColor;
-        document.getElementById("rA-añoA").innerHTML = "<b>Año: </b>"+a.getAño;
-    }else{
+        document.getElementById("rA-patA").innerHTML = "<b>Patente: </b>" + a.getPatente;
+        document.getElementById("rA-marcA").innerHTML = "<b>Marca: </b>" + a.getMarca;
+        document.getElementById("rA-modA").innerHTML = "<b>Modelo: </b>" + a.getModelo;
+        document.getElementById("rA-colorA").innerHTML = "<b>Color: </b>" + a.getColor;
+        document.getElementById("rA-añoA").innerHTML = "<b>Año: </b>" + a.getAño;
+    } else {
         alert("Auto no encontrado.");
     }
-}
+};
 
-let findCarrera = function(){
-
+function findCarrera() {
     let nC = document.getElementById("b-numC").value;
-    let c = carreras.find(car => car.getNumCarrera === nC);
-    if(c != undefined){
+    let c = carreras.find(car => car.numCarrera == nC);
+    if(c !== undefined){
         alert("Carrera encontrada.");
-        document.getElementById("rC-numCar").innerHTML = "<b>Numero de Carrera: </b>"+c.getNumCarrera;
-        document.getElementById("rC-fechaCar").innerHTML = "<b>Fecha: </b>"+c.getFecha;
-        document.getElementById("rC-dircCar").innerHTML = "<b>Direccion: </b>"+c.getDireccion;
-        document.getElementById("rC-numCar").innerHTML = "<b>NumeroCarrera: </b>"+c.getNumCarrera;
+        document.getElementById("rC-numCar").innerHTML = "<b>Numero de Carrera: </b>" + c.numCarrera;
+        document.getElementById("rC-fechaCar").innerHTML = "<b>Fecha: </b>" + c.fecha;
+        document.getElementById("rC-dircCar").innerHTML = "<b>Direccion: </b>" + c.direccion;
+        document.getElementById("rC-participantesCar").innerHTML = "<b>Participantes: </b>" + c.participantes.map(p => p.getNombre + " " + p.getApellido).join(", ");
+        document.getElementById("rC-autosCar").innerHTML = "<b>Autos: </b>" + c.autos.map(a => a.getMarca + " " + a.getModelo).join(", ");
     }else{
         alert("Carrera no encontrada.");
     }
